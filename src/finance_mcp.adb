@@ -29,6 +29,9 @@ begin
    Service_Registry.Register_Mcp_Handshake_Service
      (Web_Config, Web_Dispatcher, "/initialize");
 
+     Service_Registry.Register_Mcp_Tools_Service
+     (Web_Config, Web_Dispatcher, "/tools/list");
+
    Server.Start (Web_Server, Web_Dispatcher, Web_Config);
    Logger.Info
      ("Finance MCP Server started on port "
