@@ -3,8 +3,7 @@ with AWS.Response;
 with AWS.Services.Dispatchers.URI;
 with AWS.Status;
 
-package Ping_Service is
-
+package Mcp_Handshake_Service is
    use AWS;
    use AWS.Services.Dispatchers.URI;
 
@@ -13,14 +12,14 @@ package Ping_Service is
       Hdr         : in out Services.Dispatchers.URI.Handler;
       Service_URI : String);
 
-   type Ping_Dispatcher is new Handler with private;
+   type Handshake_Dispatcher is new Handler with private;
    overriding
    function Dispatch
-     (Dispatcher : Ping_Dispatcher; Request : Status.Data)
+     (Dispatcher : Handshake_Dispatcher; Request : Status.Data)
       return Response.Data;
 
 private
 
-   type Ping_Dispatcher is new Handler with null record;
+   type Handshake_Dispatcher is new Handler with null record;
 
-end Ping_Service;
+end Mcp_Handshake_Service;

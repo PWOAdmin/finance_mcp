@@ -1,6 +1,6 @@
-
 with Current_Config;
 with GNATCOLL.SQL;
+with Logger;
 use GNATCOLL;
 
 package body Database_Config is
@@ -13,8 +13,9 @@ package body Database_Config is
            User     => Current_Config.Database_User,
            Password => Current_Config.Database_Password,
            Host     => Current_Config.Database_Host,
-           Port     => Integer'Value(Current_Config.Database_Port));
+           Port     => Integer'Value (Current_Config.Database_Port));
       GNATCOLL.SQL.Sessions.Setup (Descr => DB_Descr, Max_Sessions => 10);
+      Logger.Info ("Database session initialized for " & Current_Config.Database_Name);
    end Session_Init;
 
    function Get_Connection return Gnatcoll.SQL.Exec.Database_Connection is
