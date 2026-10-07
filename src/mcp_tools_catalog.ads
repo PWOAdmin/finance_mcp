@@ -10,6 +10,6 @@ package Tools_Registry is new Ada.Containers.Vectors
 procedure Register_Tool (Tool : Mcp_Tools.Mcp_Tool_Type);
 
 --Publish Tool Catalog
-function Get_Tool_Catalog return String;
+function Get_Tool_Catalog (Id: String) return String;
 
 end Mcp_Tools_Catalog;

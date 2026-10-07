@@ -1,36 +1,25 @@
-with AWS.Messages;
+
 with Mcp_tools;
 with Mcp_Tools_Catalog;
-
+with Logger;
+with GNATCOLL.JSON;
 package body Mcp_Tools_Service is
 
-   Dsp : Tools_Dispatcher;
 
-   procedure Create_Service
-     (Web_Config  : Config.Object;
-      Hdr         : in out Services.Dispatchers.URI.Handler;
-      Service_URI : String)
+   function Return_Tools (Payload:String) return String
    is
-      pragma Unreferenced (Web_Config);
-   begin
-      Services.Dispatchers.URI.Register
-        (Hdr, URI => Service_URI, Action => Dsp, Prefix => True);
-   end Create_Service;
 
-   overriding
-   function Dispatch
-     (Dispatcher : Tools_Dispatcher; Request : Status.Data)
-      return Response.Data
-   is
-      use Status;
+      use GNATCOLL;
 
-      pragma Unreferenced (Dispatcher);
+
 
       Register_Operation_Tool : Mcp_Tools.Mcp_Tool_Type;
       RO_Input_Schema         : Mcp_Tools.Schema_Type;
       RO_Out_Schema           : Mcp_Tools.Schema_Type;
       Input_Properties        : Mcp_Tools.Tool_Property_Vector.Vector;
       Out_Properties          : Mcp_Tools.Tool_Property_Vector.Vector;
+
+     
 
    begin
 
@@ -88,14 +77,17 @@ package body Mcp_Tools_Service is
 
       Mcp_Tools_Catalog.Register_Tool (Register_Operation_Tool);
 
-      if Method (Request) = GET then
-         return
-           Response.Build
-             (Content_Type => "application/json",
-              Message_Body => Mcp_Tools_Catalog.Get_Tool_Catalog);
-      else
-         return Response.Acknowledge (Messages.S405);
-      end if;
-   end Dispatch;
+
+declare
+      val: JSON.Json_Value:=JSON.Read(Payload);
+      id:constant Integer:=val.get("id");
+      begin
+
+     
+          return Mcp_Tools_Catalog.Get_Tool_Catalog(Id'Image);
+              end;
+
+     
+   end Return_Tools;
 
 end Mcp_Tools_Service;
