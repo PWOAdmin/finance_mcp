@@ -27,10 +27,10 @@ begin
      (Web_Config, Web_Dispatcher, "/healthcheck");
 
    Service_Registry.Register_Mcp_Handshake_Service
-     (Web_Config, Web_Dispatcher, "/initialize");
+     (Web_Config, Web_Dispatcher, "/mcp");
 
-     Service_Registry.Register_Mcp_Tools_Service
-     (Web_Config, Web_Dispatcher, "/tools/list");
+     Service_Registry.Register_Mcp_Call_Stub
+     (Web_Config, Web_Dispatcher, "/tools/call");
 
    Server.Start (Web_Server, Web_Dispatcher, Web_Config);
    Logger.Info

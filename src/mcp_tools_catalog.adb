@@ -13,13 +13,13 @@ package body Mcp_Tools_Catalog is
    end Register_Tool;
 
    --TODO: ID is a variable
-   function Create_Response return GNATCOLL.JSON.Json_Value is
+   function Create_Response(Id: String) return GNATCOLL.JSON.Json_Value is
       use GNATCOLL;
       Response : JSON.JSON_Value := JSON.Create_Object;
    begin
 
       JSON.Set_Field (Response, "jsonrpc", "2.0");
-      JSON.Set_Field (Response, "id", "2");
+      JSON.Set_Field (Response, "id", id);
 
       return Response;
    end Create_Response;
@@ -83,12 +83,18 @@ package body Mcp_Tools_Catalog is
       JSON.Set_Field (val, "outputSchema", Schema_To_JSON (Tool.Output_Schema));
       return val;
    end Tool_To_JSON;
-
-   function Get_Tool_Catalog return String is
+function To_SSE (JSON : String) return String is
+begin
+   return
+     "event: message" & ASCII.LF &
+     "data: " & JSON & ASCII.LF &
+     ASCII.LF;
+end To_SSE;
+   function Get_Tool_Catalog (Id: String) return String is
       use Gnatcoll;
       Result    : JSON.JSON_Value := JSON.Create_Object;
       Tools_Arr : JSON.JSON_Array;
-      Response  : JSON.JSON_Value := Create_Response;
+      Response  : JSON.JSON_Value := Create_Response(Id);
    begin
 
       for Tool of Tools loop

@@ -5,7 +5,7 @@ with AWS.Server;
 with Ping_Service;
 with Mcp_Handshake_Service;
 with Mcp_Tools_Service;
-
+with Mcp_Call_Stub;
 with Service_Contract;
 
 package Service_Registry is
@@ -19,7 +19,7 @@ package Service_Registry is
    procedure Register_Mcp_Handshake_Service is new
      Service_Contract (Mcp_Handshake_Service.Create_Service);
 
-   procedure Register_Mcp_Tools_Service is new
-     Service_Contract (Mcp_Tools_Service.Create_Service);  
+   procedure Register_Mcp_Call_Stub is new
+     Service_Contract (Mcp_Call_Stub.Create_Service);
 
 end Service_Registry;

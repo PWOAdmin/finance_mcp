@@ -20,7 +20,13 @@ package body Mcp_Server_Info is
 
       return Result;
    end To_JSON;
-
+function To_SSE (JSON : String) return String is
+begin
+   return
+     "event: message" & ASCII.LF &
+     "data: " & JSON & ASCII.LF &
+     ASCII.LF;
+end To_SSE;
    function To_Handshake_JSON (Info : Mcp_Server_Info_Type) return String is
       use Gnatcoll;
       Result       : Gnatcoll.JSON.JSON_Value := JSON.Create_Object;
@@ -30,7 +36,7 @@ package body Mcp_Server_Info is
    begin
 
       JSON.Set_Field (Result, "jsonrpc", "2.0");
-      JSON.Set_Field (Result, "id", "1");
+      JSON.Set_Field (Result, "id", Info.Id);
 
       JSON.Set_Field (Tools, "listChanged", True);
 

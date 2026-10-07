@@ -9,6 +9,7 @@ package Mcp_Server_Info is
       Server_Name    : Mcp_Server_Field_Str.Bounded_String;
       Server_Title   : Mcp_Server_Field_Str.Bounded_String;
       Server_Version : Mcp_Server_Field_Str.Bounded_String;
+      Id:Integer;
    end record;
 
    function To_Handshake_JSON (Info : Mcp_Server_Info_Type) return String;
