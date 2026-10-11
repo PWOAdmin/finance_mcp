@@ -5,7 +5,7 @@ with AWS.Server;
 with AWS.Services.Dispatchers.URI;
 with Service_Registry;
 with database_config;
-
+with Op_Tool;
 with Logger;
 
 procedure Finance_Mcp is
@@ -13,8 +13,10 @@ procedure Finance_Mcp is
    Web_Server     : Server.HTTP;
    Web_Config     : Config.Object;
    Web_Dispatcher : Services.Dispatchers.URI.Handler;
+   Tool1: Op_Tool.Op_Tool_Type;
 
 begin
+   Op_Tool.Setup(Tool1);
    Logger.Info ("Starting Finance MCP Server...");
    Current_Config.Load_Config ("/finance/default/label");
    Database_Config.Session_Init;
@@ -26,11 +28,12 @@ begin
    Service_Registry.Register_Ping_Service
      (Web_Config, Web_Dispatcher, "/healthcheck");
 
-   Service_Registry.Register_Mcp_Handshake_Service
+   Service_Registry.Register_Mcp_Service
      (Web_Config, Web_Dispatcher, "/mcp");
 
-     Service_Registry.Register_Mcp_Call_Stub
-     (Web_Config, Web_Dispatcher, "/tools/call");
+
+
+
 
    Server.Start (Web_Server, Web_Dispatcher, Web_Config);
    Logger.Info
